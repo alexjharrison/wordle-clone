@@ -25,19 +25,22 @@ defineProps<{
   justify-content: center;
   font-weight: 700;
   font-size: 1.5rem;
-  color: var(--key-text-color);
+  color: var(--color-tone-1);
 }
 .letter-box.present {
   background-color: var(--key-bg-present);
   border: 2px solid var(--key-bg-present);
+  color: var(--tile-text-color);
 }
 .letter-box.correct {
   background-color: var(--key-bg-correct);
   border: 2px solid var(--key-bg-correct);
+  color: var(--tile-text-color);
 }
 .letter-box.absent {
   background-color: var(--key-bg-absent);
   border: 2px solid var(--key-bg-absent);
+  color: var(--tile-text-color);
 }
 
 @keyframes squish {
