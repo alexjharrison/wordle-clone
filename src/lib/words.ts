@@ -1,5 +1,6 @@
 export const isValidWord = (word: string) =>
-  easyWords.includes(word) || obscureWords.includes(word);
+  easyWords.includes(word.toLowerCase()) ||
+  obscureWords.includes(word.toLowerCase());
 
 export const pickRandomWord = () => {
   const randIdx = Math.floor(Math.random() * easyWords.length);

@@ -6,4 +6,5 @@ body,
   box-sizing: border-box;
   height: 100%;
   background-color: var(--color-background);
+  color: var(--color-tone-1);
 }

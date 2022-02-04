@@ -1,7 +1,11 @@
-import { pickRandomWord } from "@/lib/words";
+import { isValidWord, pickRandomWord } from "@/lib/words";
 import { computed, reactive, type ComputedRef } from "vue";
 import { useEventListener } from "@vueuse/core";
-import { allOverlappingLetters, nonOverlappingLetters } from "@/lib/overlap";
+import {
+  allOverlappingLetters,
+  isLetterAtCorrectIndexOnAnyGuess,
+  nonOverlappingLetters,
+} from "@/lib/check";
 
 /////////////////////
 // Type Definitions
@@ -14,11 +18,7 @@ enum GameState {
   GAME_LOST,
 }
 
-enum LetterState {
-  CORRECT,
-  INCORRECT,
-  UNPLAYED,
-}
+export type LetterState = "correct" | "absent" | "present" | "unplayed";
 
 interface GameStore {
   state: GameState;
@@ -37,7 +37,7 @@ const store: GameStore = reactive({
   state: GameState.ACCEPTING_LETTER,
   round: 0,
   guesses: [""],
-  answer: pickRandomWord(),
+  answer: pickRandomWord().toUpperCase(),
 });
 
 /////////////////////////
@@ -45,8 +45,6 @@ const store: GameStore = reactive({
 /////////////////////////
 
 useEventListener(document, "keydown", (e) => {
-  console.log(e);
-
   // Word Chosen
   if (e.code === "Enter") {
     handleEnter();
@@ -70,13 +68,18 @@ useEventListener(document, "keydown", (e) => {
 
 function handleEnter(): void {
   if (store.state === GameState.WORD_COMPLETE) {
-    if (store.guesses[store.round] === store.answer.toUpperCase()) {
+    if (!isValidWord(store.guesses[store.round])) {
+      console.log("not a word");
+      return;
+    }
+
+    store.guesses.push("");
+    if (store.guesses[store.round] === store.answer) {
       store.state = GameState.GAME_WON;
       return;
     }
 
     store.round++;
-    store.guesses.push("");
     store.state =
       store.round === NUM_ROUNDS
         ? GameState.GAME_LOST
@@ -109,7 +112,7 @@ function startNewGame(): void {
     state: GameState.ACCEPTING_LETTER,
     round: 0,
     guesses: [""],
-    answer: pickRandomWord(),
+    answer: pickRandomWord().toUpperCase(),
   });
 }
 
@@ -117,23 +120,52 @@ function startNewGame(): void {
 // Computed Values
 ///////////////////
 
+const isGameOver = computed(
+  () =>
+    store.state === GameState.GAME_LOST || store.state === GameState.GAME_WON
+);
+
+const lockedInGuesses = computed(() => store.guesses.slice(0, -1));
+
 const correctLetters = computed(() =>
-  allOverlappingLetters(store.answer, store.guesses.join(""))
+  allOverlappingLetters(store.answer, lockedInGuesses.value.join(""))
 );
 
 const incorrectLetters = computed(() =>
-  nonOverlappingLetters(store.answer, store.guesses.join(""))
+  nonOverlappingLetters(store.answer, lockedInGuesses.value.join(""))
 );
 
-const letterState = (letter: string): ComputedRef<LetterState> =>
+const getLetterState = (
+  letter: string,
+  index?: number,
+  row?: number
+): ComputedRef<LetterState> =>
   computed(() => {
-    if (correctLetters.value.includes(letter)) {
-      return LetterState.CORRECT;
-    } else if (incorrectLetters.value.includes(letter)) {
-      return LetterState.INCORRECT;
-    } else {
-      return LetterState.UNPLAYED;
+    // keyboard
+    if (
+      index === undefined &&
+      isLetterAtCorrectIndexOnAnyGuess(
+        lockedInGuesses.value,
+        letter,
+        store.answer
+      )
+    ) {
+      return "correct";
     }
+
+    // guess box
+    else if (row !== undefined && row >= store.round && !isGameOver.value) {
+      return "unplayed";
+    } else if (index !== undefined && store.answer[index] === letter) {
+      return "correct";
+    }
+
+    // both
+    else if (correctLetters.value.includes(letter)) {
+      return "present";
+    } else if (incorrectLetters.value.includes(letter)) {
+      return "absent";
+    } else return "unplayed";
   });
 
 ///////////////////////
@@ -145,7 +177,8 @@ export const useGameStore = () => ({
   NUM_ROUNDS,
   correctLetters,
   incorrectLetters,
-  letterState,
+  isGameOver,
+  getLetterState,
   handleEnter,
   handleBackspace,
   handleAddLetter,
