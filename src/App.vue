@@ -5,6 +5,7 @@
     <AppFooter class="app-footer" />
   </div>
   <Modal />
+  <ToastNotification />
 </template>
 
 <script setup lang="ts">
@@ -12,11 +13,13 @@ import Modal from "./components/modals/Modal.vue";
 import AppHeader from "@/components/AppHeader.vue";
 import AppFooter from "@/components/AppFooter.vue";
 import AppBody from "@/components/AppBody.vue";
+import ToastNotification from "./components/toast/ToastNotification.vue";
 </script>
 
 <style>
 @import "@/assets/styles/vars.css";
 @import "@/assets/styles/base.css";
+@import "@/assets/styles/transitions.css";
 </style>
 
 <style scoped>

@@ -6,6 +6,7 @@ import {
   isLetterAtCorrectIndexOnAnyGuess,
   nonOverlappingLetters,
 } from "@/lib/check";
+import { useToast } from "./toast";
 
 /////////////////////
 // Type Definitions
@@ -66,10 +67,12 @@ useEventListener(document, "keydown", (e) => {
 // State Modifier Functions
 ////////////////////////////
 
+const { fireToast } = useToast();
+
 function handleEnter(): void {
   if (store.state === GameState.WORD_COMPLETE) {
     if (!isValidWord(store.guesses[store.round])) {
-      console.log("not a word");
+      fireToast("Not a Word ☹");
       return;
     }
 

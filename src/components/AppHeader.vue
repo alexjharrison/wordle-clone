@@ -9,6 +9,7 @@ header {
   display: flex;
   align-items: center;
   text-align: center;
+  height: var(--header-height);
 }
 .title {
   margin: 7px auto;

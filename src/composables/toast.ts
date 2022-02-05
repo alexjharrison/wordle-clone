@@ -13,9 +13,16 @@ export const useToast = () => {
       isVisible.value = false;
     }, timeout * 1000);
   };
+
+  const closeToast = () => {
+    message.value = "";
+    isVisible.value = false;
+  };
+
   return {
     message: readonly(message),
     isVisible: readonly(isVisible),
     fireToast,
+    closeToast,
   };
 };
