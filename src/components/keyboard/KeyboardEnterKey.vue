@@ -1,5 +1,5 @@
 <template>
-  <div class="keyboard-key">
+  <div class="keyboard-key" @click="handleEnter">
     <p>Enter</p>
   </div>
 </template>
@@ -7,5 +7,5 @@
 <script setup lang="ts">
 import { useGameStore } from "@/composables/game";
 
-const { NUM_ROUNDS } = useGameStore();
+const { handleEnter } = useGameStore();
 </script>

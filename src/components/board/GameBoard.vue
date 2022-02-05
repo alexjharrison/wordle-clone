@@ -1,7 +1,7 @@
 <template>
   <div class="board">
     <div class="row" v-for="(row, i) in rows" :key="i">
-      <LetterBox v-for="square in row" :key="square.letter" v-bind="square" />
+      <LetterBox v-for="(square, j) in row" :key="j" v-bind="square" />
     </div>
   </div>
 </template>

@@ -1,6 +1,6 @@
 <template>
   <div class="keyboard-key" @click="handleBackspace">
-    <p>&lt;=</p>
+    <p>&lt;==</p>
   </div>
 </template>
 

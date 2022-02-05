@@ -1,5 +1,5 @@
 import { isValidWord, pickRandomWord } from "@/lib/words";
-import { computed, reactive, type ComputedRef } from "vue";
+import { computed, reactive, watchEffect, type ComputedRef } from "vue";
 import { useEventListener } from "@vueuse/core";
 import {
   allOverlappingLetters,
@@ -67,12 +67,15 @@ useEventListener(document, "keydown", (e) => {
 // State Modifier Functions
 ////////////////////////////
 
-const { fireToast } = useToast();
+const { fireToast, closeToast } = useToast();
 
 function handleEnter(): void {
-  if (store.state === GameState.WORD_COMPLETE) {
+  if (isGameOver.value) {
+    startNewGame();
+    closeToast();
+  } else if (store.state === GameState.WORD_COMPLETE) {
     if (!isValidWord(store.guesses[store.round])) {
-      fireToast("Not a Word ☹");
+      fireToast({ newMessage: "Not a Word ☹" });
       return;
     }
 
@@ -170,6 +173,34 @@ const getLetterState = (
       return "absent";
     } else return "unplayed";
   });
+
+///////////////////////
+// Game Over Resets
+///////////////////////
+
+watchEffect(() => {
+  if (store.state === GameState.GAME_WON) {
+    fireToast({
+      newMessage: [
+        "🎉🎉🎉 You Win 🎉🎉🎉",
+        `Word was ${store.answer}`,
+        "Hit X or press Enter to play again",
+      ],
+      timeout: 10000000,
+      shouldResetOnClose: true,
+    });
+  } else if (store.state === GameState.GAME_LOST) {
+    fireToast({
+      newMessage: [
+        "💩💩💩 You Lose 💩💩💩",
+        `Word was ${store.answer}`,
+        "Hit X or press Enter to play again",
+      ],
+      timeout: 10000000,
+      shouldResetOnClose: true,
+    });
+  }
+});
 
 ///////////////////////
 // Composable Function
