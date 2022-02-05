@@ -8,3 +8,11 @@ body,
   background-color: var(--color-background);
   color: var(--color-tone-1);
 }
+
+svg {
+  height: 30px;
+  color: var(--color-tone-2);
+}
+path {
+  stroke-width: 1.1;
+}
