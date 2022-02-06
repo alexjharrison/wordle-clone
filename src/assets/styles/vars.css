@@ -30,6 +30,7 @@
   --color-tone-6: #f6f7f8;
   --color-tone-7: #ffffff;
   --opacity-50: rgba(255, 255, 255, 0.5);
+  --opacity-80: rgba(255, 255, 255, 0.8);
 }
 /* Dark Theme Colors */
 .nightmode {
@@ -40,7 +41,7 @@
   --color-tone-5: #272729;
   --color-tone-6: #1a1a1b;
   --color-tone-7: #121213;
-  --opacity-50: rgba(0, 0, 0, 0.5);
+  --opacity-80: rgba(0, 0, 0, 0.8);
 }
 /* Constant colors and colors derived from theme */
 :root,

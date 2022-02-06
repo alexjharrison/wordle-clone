@@ -34,7 +34,7 @@ const modalBody = computed(() => components[currentModal.value]);
   width: 100%;
   height: 100%;
   z-index: 2;
-  background-color: var(--opacity-50);
+  background-color: var(--opacity-80);
 }
 
 .modal {
