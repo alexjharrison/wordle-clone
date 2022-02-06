@@ -5,6 +5,7 @@ body,
   padding: 0;
   box-sizing: border-box;
   height: 100%;
+  transition: color 0.5s ease-in-out, background-color 0.5s ease-in-out;
 }
 
 #app {
