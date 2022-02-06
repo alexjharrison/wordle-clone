@@ -1,11 +1,12 @@
 <template>
-  <div
+  <button
     class="keyboard-key"
     :class="letterState"
+    :aria-label="letter"
     @click="handleAddLetter(letter)"
   >
     <p>{{ letter }}</p>
-  </div>
+  </button>
 </template>
 
 <script setup lang="ts">

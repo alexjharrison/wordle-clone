@@ -1,7 +1,11 @@
 <template>
-  <div class="keyboard-key wide" @click="handleBackspace">
+  <button
+    class="keyboard-key wide"
+    @click="handleBackspace"
+    aria-label="backspace"
+  >
     <BackspaceIcon class="icon" />
-  </div>
+  </button>
 </template>
 
 <script setup lang="ts">
