@@ -1,5 +1,5 @@
 <template>
-  <div class="keyboard-key" @click="handleEnter">
+  <div class="keyboard-key wide" @click="handleEnter">
     <p>Enter</p>
   </div>
 </template>

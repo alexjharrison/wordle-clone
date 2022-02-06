@@ -29,9 +29,8 @@ watchEffect(() => {
 .letter-box {
   background-color: var(--color-background);
   border: 2px solid var(--color-tone-4);
-  width: 50px;
-  height: 50px;
-  margin: 5px 10px;
+  width: 60px;
+  margin: 3px;
   display: flex;
   align-items: center;
   justify-content: center;

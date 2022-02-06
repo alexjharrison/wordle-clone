@@ -1,5 +1,5 @@
 <template>
-  <div class="keyboard-key" @click="handleBackspace">
+  <div class="keyboard-key wide" @click="handleBackspace">
     <BackspaceIcon class="icon" />
   </div>
 </template>
@@ -12,11 +12,6 @@ const { handleBackspace } = useGameStore();
 </script>
 
 <style scoped>
-.keyboard-key {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 .icon {
   color: var(--key-text-1);
 }

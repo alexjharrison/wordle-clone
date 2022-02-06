@@ -30,6 +30,7 @@ const rows = computed<{ letter: string; letterState: LetterState }[][]>(() =>
 .board {
   display: flex;
   flex-direction: column;
+  margin: auto 10px;
 }
 .row {
   display: flex;

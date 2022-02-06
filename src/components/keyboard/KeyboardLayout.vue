@@ -22,25 +22,39 @@ const rows = ["QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM"];
 
 <style scoped>
 .keyboard {
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 }
 .row {
   display: flex;
   justify-content: center;
-  align-items: stretch;
+  margin: 0 10px;
 }
-</style>
-
-<style>
 .keyboard-key {
-  padding: 0.1rem 1rem;
-  margin: 0.1rem;
   border-radius: 5px;
   background-color: var(--key-bg);
   color: var(--key-text-color);
+  flex: 0 1 40px;
+  margin: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 1;
+}
+.keyboard-key.wide {
+  padding: 0 10px;
 }
 .keyboard-key:hover {
   background-color: var(--color-absent);
   cursor: pointer;
+}
+
+.keyboard-key.present {
+  background-color: var(--key-bg-present);
+}
+.keyboard-key.correct {
+  background-color: var(--key-bg-correct);
+}
+.keyboard-key.absent {
+  background-color: var(--key-bg-absent);
 }
 </style>
