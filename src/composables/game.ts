@@ -26,6 +26,10 @@ interface GameStore {
   round: number;
   guesses: string[];
   answer: string;
+  // [1 guess games, 2,3,4,5,6,losses]
+  scores: number[];
+  currentStreak: number;
+  maxStreak: number;
 }
 
 //////////////////
@@ -34,20 +38,50 @@ interface GameStore {
 
 const NUM_ROUNDS = 6;
 
-const store: GameStore = reactive({
-  state: GameState.ACCEPTING_LETTER,
-  round: 0,
-  guesses: [""],
-  answer: pickRandomWord().toUpperCase(),
+// Pull gameState from localstorage and use to initialize if set
+
+const savedGameStateString = localStorage.getItem("state");
+const parsedSavedState =
+  savedGameStateString &&
+  (JSON.parse(savedGameStateString) as GameStore | null);
+
+const store: GameStore = reactive(
+  parsedSavedState || {
+    state: GameState.ACCEPTING_LETTER,
+    round: 0,
+    guesses: [""],
+    answer: pickRandomWord().toUpperCase(),
+    scores: [0, 0, 0, 0, 0, 0, 0],
+    currentStreak: 0,
+    maxStreak: 0,
+  }
+);
+
+////////////////////////////////
+// Mirror state to LocalStorage
+////////////////////////////////
+
+watchEffect(() => {
+  localStorage.setItem("state", JSON.stringify(store));
 });
 
 /////////////////////////
 // Handle KeyPress events
 /////////////////////////
 
+let isCtrlPressed = false;
 useEventListener(document, "keydown", (e) => {
+  // if ctrl is pressed ignore further keypresses
+  // ctrl + r adds letters annoyingly
+  console.log("keydown", e, { isCtrlPressed });
+  if (e.key === "Control") {
+    isCtrlPressed = true;
+  } else if (isCtrlPressed) {
+    return;
+  }
+
   // Word Chosen
-  if (e.code === "Enter") {
+  else if (e.code === "Enter") {
     handleEnter();
   }
 
@@ -60,6 +94,13 @@ useEventListener(document, "keydown", (e) => {
   // Letter Selected
   else if (e.code.startsWith("Key")) {
     handleAddLetter(e.code.slice(-1));
+  }
+});
+
+useEventListener(document, "keyup", (e) => {
+  console.log("keyup", e);
+  if (e.key === "Control") {
+    isCtrlPressed = false;
   }
 });
 
@@ -119,6 +160,9 @@ function startNewGame(): void {
     round: 0,
     guesses: [""],
     answer: pickRandomWord().toUpperCase(),
+    scores: store.scores,
+    currentStreak: store.currentStreak,
+    maxStreak: store.maxStreak,
   });
 }
 
@@ -180,6 +224,11 @@ const getLetterState = (
 
 watchEffect(() => {
   if (store.state === GameState.GAME_WON) {
+    // save win for eternity
+    store.scores[store.round]++;
+    store.currentStreak++;
+    store.maxStreak = Math.max(store.maxStreak, store.currentStreak);
+
     fireToast({
       newMessage: [
         "🎉🎉🎉 You Win 🎉🎉🎉",
@@ -190,6 +239,11 @@ watchEffect(() => {
       shouldResetOnClose: true,
     });
   } else if (store.state === GameState.GAME_LOST) {
+    // save loss for eternity
+    store.scores[6]++;
+    store.maxStreak = Math.max(store.maxStreak, store.currentStreak);
+    store.currentStreak = 0;
+
     fireToast({
       newMessage: [
         "💩💩💩 You Lose 💩💩💩",

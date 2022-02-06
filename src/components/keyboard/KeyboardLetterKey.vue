@@ -1,16 +1,17 @@
 <template>
-  <button
+  <DeblurButton
     class="keyboard-key"
     :class="letterState"
     :aria-label="letter"
     @click="handleAddLetter(letter)"
   >
     <p>{{ letter }}</p>
-  </button>
+  </DeblurButton>
 </template>
 
 <script setup lang="ts">
 import { useGameStore } from "@/composables/game";
+import DeblurButton from "../generic/DeblurButton.vue";
 
 const props = defineProps<{ letter: string }>();
 

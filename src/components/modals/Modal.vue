@@ -42,7 +42,7 @@ const modalBody = computed(() => components[currentModal.value]);
   padding: 0.5em;
   border: solid 1px #f8f8f8;
   width: 400px;
-  margin: auto;
+  margin: auto 10px;
   border-radius: 5px;
   box-shadow: 5px 5px 15px 5px var(--color-tone-3);
 }
