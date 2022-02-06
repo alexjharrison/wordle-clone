@@ -20,6 +20,7 @@ export default defineConfig({
         short_name: "Werde",
         description: "Not a ripoff of Wordle 😉",
         theme_color: "#ffffff",
+        id: "https://werdle.aharrison.xyz/",
         icons: [
           {
             src: "android-chrome-192x192.png",
