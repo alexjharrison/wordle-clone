@@ -27,7 +27,12 @@ const rows = computed<{ letter: string; letterState: LetterState }[][]>(() =>
 </script>
 
 <style scoped>
+.board {
+  display: flex;
+  flex-direction: column;
+}
 .row {
   display: flex;
+  justify-content: center;
 }
 </style>

@@ -29,6 +29,12 @@ import ToastNotification from "./components/toast/ToastNotification.vue";
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  max-width: var(--game-max-width);
+  margin: auto;
+}
+#app-content > * {
+  width: 100%;
 }
 .app-body {
   margin: auto;
@@ -36,6 +42,5 @@ import ToastNotification from "./components/toast/ToastNotification.vue";
 
 .app-header {
   border-bottom: solid 1px var(--color-tone-4);
-  width: 400px;
 }
 </style>

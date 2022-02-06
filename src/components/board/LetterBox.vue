@@ -1,16 +1,28 @@
 <template>
-  <div class="letter-box" :class="letterState">
+  <div class="letter-box" ref="boxelement" :class="letterState">
     <p>{{ letter }}</p>
   </div>
 </template>
 
 <script setup lang="ts">
 import type { LetterState } from "@/composables/game";
+import { useElementSize } from "@vueuse/core";
+import { ref, watchEffect } from "vue";
 
 defineProps<{
   letter: string;
   letterState: LetterState;
 }>();
+
+const boxelement = ref<HTMLDivElement | null>(null);
+
+const { width } = useElementSize(boxelement);
+
+watchEffect(() => {
+  if (boxelement.value) {
+    boxelement.value.style.height = String(width.value) + "px" || "auto";
+  }
+});
 </script>
 
 <style>
