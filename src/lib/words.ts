@@ -1,6 +1,5 @@
 export const isValidWord = (word: string) =>
-  easyWords.includes(word.toLowerCase()) ||
-  obscureWords.includes(word.toLowerCase());
+  easyWords.includes(word) || obscureWords.includes(word);
 
 export const pickRandomWord = () => {
   const randIdx = Math.floor(Math.random() * easyWords.length);
@@ -2323,7 +2322,7 @@ const easyWords = [
   "artsy",
   "rural",
   "shave",
-];
+].map((word) => word.toUpperCase());
 
 export const obscureWords = [
   "aahed",
@@ -12983,4 +12982,4 @@ export const obscureWords = [
   "zygon",
   "zymes",
   "zymic",
-];
+].map((word) => word.toUpperCase());

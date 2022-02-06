@@ -1,6 +1,6 @@
 import { readonly, ref } from "vue";
 
-type ModalOptions = "ModalGameRules" | "ModalDefault";
+type ModalOptions = "ModalGameRules" | "ModalDefault" | "ModalStats";
 
 const isShowing = ref(false);
 const currentModal = ref<ModalOptions>("ModalDefault");

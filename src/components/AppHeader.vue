@@ -1,30 +1,37 @@
 <template>
   <header>
     <div>
-      <button aria-label="game rules">
+      <DeblurButton
+        aria-label="game rules"
+        @click="openModal('ModalGameRules')"
+      >
         <InformationCircleIcon />
-      </button>
+      </DeblurButton>
     </div>
     <h1 class="title">WERDLE</h1>
     <div>
-      <button aria-label="game stats">
+      <DeblurButton aria-label="game stats" @click="openModal('ModalStats')">
         <ChartBarIcon />
-      </button>
-      <button aria-label="dark mode" @click="toggleDarkMode">
+      </DeblurButton>
+      <DeblurButton aria-label="dark mode" @click="toggleDarkMode">
         <MoonIcon />
-      </button>
+      </DeblurButton>
     </div>
   </header>
 </template>
 
 <script setup lang="ts">
+import { useModal } from "@/composables/modal";
 import {
   MoonIcon,
   InformationCircleIcon,
   ChartBarIcon,
 } from "@heroicons/vue/outline";
+import DeblurButton from "./generic/DeblurButton.vue";
 
 defineEmits<{ (e: "toggle-dark-mode"): void }>();
+
+const { openModal } = useModal();
 
 function toggleDarkMode(e: MouseEvent) {
   // vue root div
@@ -32,9 +39,6 @@ function toggleDarkMode(e: MouseEvent) {
 
   // toggle nightmode class at vue root
   app?.classList.toggle("nightmode");
-
-  // blur button so enter does not trigger re-darkening
-  (e.currentTarget as HTMLButtonElement).blur();
 }
 </script>
 

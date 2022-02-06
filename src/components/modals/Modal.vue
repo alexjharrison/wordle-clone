@@ -1,6 +1,6 @@
 <template>
   <div v-if="isShowing" class="mask" :class="{ showing: isShowing }">
-    <div class="modal">
+    <div class="modal" ref="modal">
       <div class="close-btn" @click="closeModal">X</div>
       <component :is="modalBody" />
     </div>
@@ -10,10 +10,14 @@
 <script setup lang="ts">
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useModal } from "@/composables/modal";
-import { computed } from "vue";
+import { onClickOutside } from "@vueuse/core";
+import { computed, ref } from "vue";
 import * as components from "./index";
 
 const { isShowing, currentModal, closeModal } = useModal();
+
+const modal = ref<HTMLDivElement | null>(null);
+onClickOutside(modal, closeModal);
 
 const modalBody = computed(() => components[currentModal.value]);
 </script>
@@ -29,12 +33,11 @@ const modalBody = computed(() => components[currentModal.value]);
   width: 100%;
   height: 100%;
   z-index: 2;
-  opacity: 0;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: var(--opacity-50);
 }
 .mask.showing {
   opacity: 1;
-  transition: opacity 5s ease;
+  transition: background-color 1s ease;
 }
 .modal {
   position: relative;
@@ -43,7 +46,7 @@ const modalBody = computed(() => components[currentModal.value]);
   width: 400px;
   margin: auto;
   border-radius: 5px;
-  box-shadow: 4px 23px 0 rgb(0 0 0 / 20%);
+  box-shadow: 5px 5px 15px 5px var(--color-tone-3);
 }
 .close-btn {
   position: absolute;
