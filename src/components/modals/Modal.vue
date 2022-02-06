@@ -10,7 +10,6 @@
 </template>
 
 <script setup lang="ts">
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useModal } from "@/composables/modal";
 import { onClickOutside } from "@vueuse/core";
 import { computed, ref } from "vue";
