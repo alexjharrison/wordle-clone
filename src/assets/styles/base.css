@@ -5,6 +5,9 @@ body,
   padding: 0;
   box-sizing: border-box;
   height: 100%;
+}
+
+#app {
   background-color: var(--color-background);
   color: var(--color-tone-1);
 }
@@ -29,4 +32,8 @@ input[type="reset"] {
   font: inherit;
   cursor: pointer;
   outline: inherit;
+}
+/* button:active, */
+button:focus-visible {
+  border: 2px solid var(--color-tone-2);
 }
