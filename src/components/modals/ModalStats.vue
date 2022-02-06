@@ -9,7 +9,8 @@
       <div>
         <p class="stat-number">
           {{
-            Math.round(((gamesPlayed - store.scores[6]) / gamesPlayed) * 100)
+            Math.round(((gamesPlayed - store.scores[6]) / gamesPlayed) * 100) ||
+            0
           }}
         </p>
         <p class="stat-description">Win %</p>
