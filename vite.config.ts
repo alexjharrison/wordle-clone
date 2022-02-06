@@ -17,7 +17,7 @@ export default defineConfig({
       ],
       manifest: {
         name: "Werdle",
-        short_name: "Werde",
+        short_name: "Werdle",
         description: "Not a ripoff of Wordle 😉",
         theme_color: "#ffffff",
         id: "https://werdle.aharrison.xyz/",
