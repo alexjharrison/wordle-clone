@@ -13,19 +13,24 @@
       <DeblurButton aria-label="game stats" @click="openModal('ModalStats')">
         <ChartBarIcon />
       </DeblurButton>
-      <DeblurButton aria-label="dark mode" @click="toggleDarkMode">
-        <MoonIcon />
+      <DeblurButton aria-label="dark mode" @click="toggleColors">
+        <SunIcon v-if="selectedColorStatus === 'normal'" />
+        <MoonIcon v-else-if="selectedColorStatus === 'nightmode'" />
+        <EyeIcon v-else-if="selectedColorStatus === 'colorblind'" />
       </DeblurButton>
     </div>
   </header>
 </template>
 
 <script setup lang="ts">
+import { useColorStatus } from "@/composables/colors";
 import { useModal } from "@/composables/modal";
 import {
   MoonIcon,
   InformationCircleIcon,
   ChartBarIcon,
+  SunIcon,
+  EyeIcon,
 } from "@heroicons/vue/outline";
 import DeblurButton from "./generic/DeblurButton.vue";
 
@@ -33,13 +38,7 @@ defineEmits<{ (e: "toggle-dark-mode"): void }>();
 
 const { openModal } = useModal();
 
-function toggleDarkMode(e: MouseEvent) {
-  // vue root div
-  const app = document.getElementById("app");
-
-  // toggle nightmode class at vue root
-  app?.classList.toggle("nightmode");
-}
+const { selectedColorStatus, toggleColors } = useColorStatus();
 </script>
 
 <style scoped>
